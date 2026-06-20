@@ -41,9 +41,13 @@ const config = {
   },
 
   paths: {
-    root: path.join(__dirname, '..'),
-    db: path.join(__dirname, '..', 'data', 'dcam.db'),
-    uploads: path.join(__dirname, '..', 'public', 'uploads'),
+    root: process.env.NETLIFY ? process.cwd() : path.join(__dirname, '..'),
+    db: process.env.NETLIFY 
+      ? path.join(process.cwd(), 'data', 'dcam.db')
+      : path.join(__dirname, '..', 'data', 'dcam.db'),
+    uploads: process.env.NETLIFY
+      ? path.join(process.cwd(), 'public', 'uploads')
+      : path.join(__dirname, '..', 'public', 'uploads'),
   },
 };
 

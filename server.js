@@ -26,10 +26,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Sessions (stored in SQLite — no external store)
-fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+// Sessions (stored in SQLite)
+const sessionDir = process.env.NETLIFY ? '/tmp' : path.join(__dirname, 'data');
+try {
+  if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+} catch (e) {}
+
 app.use(session({
-  store: new SQLiteStore({ db: 'sessions.db', dir: path.join(__dirname, 'data') }),
+  store: new SQLiteStore({ db: 'sessions.db', dir: sessionDir }),
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
