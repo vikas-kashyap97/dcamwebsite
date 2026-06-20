@@ -41,9 +41,9 @@ const config = {
   },
 
   paths: {
-    root: path.resolve(process.cwd()),
-    db: path.resolve(process.cwd(), 'data', 'dcam.db'),
-    uploads: path.resolve(process.cwd(), 'public', 'uploads'),
+    root: process.env.LAMBDA_TASK_ROOT || path.resolve(process.cwd()),
+    db: path.join(process.env.LAMBDA_TASK_ROOT || process.cwd(), 'data', 'dcam.db'),
+    uploads: path.join(process.env.LAMBDA_TASK_ROOT || process.cwd(), 'public', 'uploads'),
   },
 };
 

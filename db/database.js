@@ -17,6 +17,7 @@ try {
 
 // Enable read-only ONLY if running in the live Netlify Function (Lambda)
 // This allow writes during the Netlify Build phase.
+console.log(`[Database] Attempting to open: ${config.paths.db} (readonly: ${isFunction})`);
 const db = new Database(config.paths.db, { readonly: isFunction });
 
 if (!isFunction) {
