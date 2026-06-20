@@ -26,19 +26,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Sessions (stored in SQLite)
-const sessionDir = process.env.NETLIFY ? '/tmp' : path.join(__dirname, 'data');
-try {
-  if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
-} catch (e) {}
-
-app.use(session({
-  store: new SQLiteStore({ db: 'sessions.db', dir: sessionDir }),
+// Sessions: Use MemoryStore on Netlify (stateless), SQLite locally
+const sessionConfig = {
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 8 },
-}));
+};
+
+if (process.env.NETLIFY) {
+  console.log('Using MemoryStore for sessions on Netlify');
+} else {
+  const sessionDir = path.join(__dirname, 'data');
+  if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+  sessionConfig.store = new SQLiteStore({ db: 'sessions.db', dir: sessionDir });
+}
+
+app.use(session(sessionConfig));
 
 // Globals available to all views
 app.use((req, res, next) => {
