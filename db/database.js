@@ -14,8 +14,12 @@ try {
   // Ignore error if directory already exists or is read-only
 }
 
-const db = new Database(config.paths.db, { readonly: process.env.NETLIFY === 'true' });
-if (process.env.NETLIFY !== 'true') {
+// Enable read-only ONLY if running in the live Netlify Function (Lambda)
+// This allow writes during the Netlify Build phase.
+const isFunction = !!process.env.LAMBDA_TASK_ROOT;
+const db = new Database(config.paths.db, { readonly: isFunction });
+
+if (!isFunction) {
   db.pragma('journal_mode = WAL');
 }
 db.pragma('foreign_keys = ON');
