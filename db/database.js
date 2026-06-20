@@ -4,21 +4,26 @@ const path = require('path');
 const Database = require('better-sqlite3');
 const config = require('../config/config');
 
-// Ensure data dir exists (Allowed during Build phase, fails in Function phase)
+// Ensure data dir exists (local) or copy to /tmp (Netlify)
 const isFunction = !!process.env.LAMBDA_TASK_ROOT;
-const dataDir = path.dirname(config.paths.db);
-try {
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+if (isFunction) {
+  // On Netlify, copy the read-only DB from the bundle to the writable /tmp folder
+  // This allows SQLite to create journal files and prevents SQLITE_CANTOPEN errors.
+  try {
+    if (!fs.existsSync(config.paths.db)) {
+      console.log(`[Database] Copying ${config.paths.dbSource} to ${config.paths.db}...`);
+      fs.copyFileSync(config.paths.dbSource, config.paths.db);
+    }
+  } catch (err) {
+    console.error('[Database] Failed to setup database in /tmp:', err);
   }
-} catch (e) {
-  // Catch error in case of read-only environment
+} else {
+  const dataDir = path.dirname(config.paths.db);
+  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 }
 
-// Enable read-only ONLY if running in the live Netlify Function (Lambda)
-// This allow writes during the Netlify Build phase.
-console.log(`[Database] Attempting to open: ${config.paths.db} (readonly: ${isFunction})`);
-const db = new Database(config.paths.db, { readonly: isFunction });
+console.log(`[Database] Attempting to open: ${config.paths.db} (isFunction: ${isFunction})`);
+const db = new Database(config.paths.db);
 
 if (!isFunction) {
   db.pragma('journal_mode = WAL');
