@@ -11,7 +11,9 @@ const { requireAuth } = require('../middleware/auth');
 
 // ── Local image storage (no S3) ──
 const productUploadDir = path.join(config.paths.uploads, 'products');
-fs.mkdirSync(productUploadDir, { recursive: true });
+try {
+  if (!fs.existsSync(productUploadDir)) fs.mkdirSync(productUploadDir, { recursive: true });
+} catch (e) {}
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, productUploadDir),
   filename: (req, file, cb) => {
