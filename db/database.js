@@ -5,14 +5,13 @@ const Database = require('better-sqlite3');
 const config = require('../config/config');
 
 // Ensure data dir exists (skip or catch if read-only like Netlify)
+const isNetlify = !!(process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT);
 const dataDir = path.dirname(config.paths.db);
 try {
-  if (!fs.existsSync(dataDir)) {
+  if (!isNetlify && !fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
-} catch (e) {
-  // Ignore error if directory already exists or is read-only
-}
+} catch (e) {}
 
 // Enable read-only ONLY if running in the live Netlify Function (Lambda)
 // This allow writes during the Netlify Build phase.

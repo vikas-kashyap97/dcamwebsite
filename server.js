@@ -34,11 +34,15 @@ const sessionConfig = {
   cookie: { maxAge: 1000 * 60 * 60 * 8 },
 };
 
-if (process.env.NETLIFY) {
+const isNetlify = !!(process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT);
+
+if (isNetlify) {
   console.log('Using MemoryStore for sessions on Netlify');
 } else {
   const sessionDir = path.join(__dirname, 'data');
-  if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+  try {
+    if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+  } catch (e) {}
   sessionConfig.store = new SQLiteStore({ db: 'sessions.db', dir: sessionDir });
 }
 
