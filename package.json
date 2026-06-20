@@ -1,0 +1,32 @@
+{
+  "name": "dcam-engineering-website",
+  "version": "1.0.0",
+  "description": "D Cam Engineering — B2B catalog, per-product lead capture, and admin/CRM portal. SQLite + local file storage. Light-mode engineering theme.",
+  "main": "server.js",
+  "scripts": {
+    "build": "node -e \"console.log('No build step needed. Run: npm run init-db (first time), then npm start')\"",
+    "init-db": "node db/init.js",
+    "favicons": "node scripts/generate-favicons.js",
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.10.0",
+    "connect-sqlite3": "^0.9.13",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.14",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

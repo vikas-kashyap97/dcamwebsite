@@ -1,0 +1,52 @@
+<div class="breadcrumb"><div class="container"><a href="/">Home</a> » Contact Us</div></div>
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Get in touch</span>
+    <h1>Contact D Cam Engineering</h1>
+    <div class="grid grid-2" style="gap:40px;margin-top:20px;align-items:start">
+      <div>
+        <div class="form-card">
+          <h3>Reach us</h3>
+          <table class="factsheet">
+            <tr><td>Proprietor</td><td><%= company.proprietor %></td></tr>
+            <tr><td>Address</td><td><%= company.address %></td></tr>
+            <tr><td>Phone</td><td><a href="tel:<%= company.phone.replace(/\s/g,'') %>"><%= company.phone %></a> / <%= company.phoneAlt %></td></tr>
+            <tr><td>Mobile</td><td><%= company.mobile %></td></tr>
+            <tr><td>Email</td><td><a href="mailto:<%= company.email %>"><%= company.email %></a></td></tr>
+            <tr><td>GST</td><td><%= company.gst %></td></tr>
+            <tr><td>IEC</td><td><%= company.iec %></td></tr>
+          </table>
+          <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+            <a class="btn btn-outline btn-sm" href="https://www.google.com/maps?q=<%= company.mapLat %>,<%= company.mapLng %>" target="_blank">Get Directions</a>
+            <a class="btn btn-wa btn-sm" href="https://wa.me/<%= whatsappNumber %>" target="_blank">WhatsApp</a>
+          </div>
+        </div>
+        <iframe title="Map" style="width:100%;height:260px;border:1px solid var(--line);border-radius:10px;margin-top:18px"
+          src="https://www.google.com/maps?q=<%= company.mapLat %>,<%= company.mapLng %>&z=15&output=embed" loading="lazy"></iframe>
+      </div>
+
+      <div class="form-card">
+        <h3>Send an enquiry</h3>
+        <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+        <form action="/api/leads" method="POST">
+          <input type="hidden" name="source_page" value="/contact">
+          <input type="hidden" name="product_name" value="General enquiry">
+          <div class="honeypot"><label>Company website<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+          <div class="form-grid">
+            <div class="field"><label>Full name <span class="req">*</span></label><input type="text" name="name" value="<%= old.name||'' %>" required></div>
+            <div class="field"><label>Organisation</label><input type="text" name="organisation" value="<%= old.organisation||'' %>"></div>
+            <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="email" value="<%= old.email||'' %>" required></div>
+            <div class="field"><label>Phone / WhatsApp <span class="req">*</span></label><input type="tel" name="phone" value="<%= old.phone||'' %>" required></div>
+            <div class="field"><label>Country</label><input type="text" name="country" value="<%= old.country||'' %>"></div>
+            <div class="field"><label>Product of interest</label><input type="text" name="application" placeholder="e.g. Core flooding apparatus"></div>
+          </div>
+          <div class="field"><label>Requirement / message <span class="req">*</span></label><textarea name="message" required><%= old.message||'' %></textarea></div>
+          <label style="font-size:.85rem;display:flex;gap:8px;align-items:flex-start;margin:6px 0 16px">
+            <input type="checkbox" required style="width:auto;margin-top:3px"> I agree to be contacted per the <a href="/privacy">privacy policy</a>.
+          </label>
+          <button type="submit" class="btn btn-primary btn-block">Send Enquiry</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

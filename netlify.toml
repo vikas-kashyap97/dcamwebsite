@@ -1,0 +1,38 @@
+[build]
+  command = "npm run init-db"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # Mark native modules as external so Netlify installs them for the correct OS (Linux)
+  external_node_modules = ["better-sqlite3", "sqlite3"]
+  included_files = ["views/**", "data/**", "config/**", "routes/**", "services/**", "middleware/**", "db/**"]
+
+[[redirects]]
+  # Serve static files from /public if they exist
+  from = "/css/*"
+  to = "/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/img/*"
+  to = "/img/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/uploads/*"
+  to = "/uploads/:splat"
+  status = 200
+
+# Fallback all other requests to the Express app function
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = false

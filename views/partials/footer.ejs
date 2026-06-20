@@ -1,0 +1,37 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4 class="footer-brand"><img src="/img/logo-horizontal-white.png" width="615" height="200" alt="D Cam Engineering"></h4>
+        <p>In-house manufacturer of high-pressure &amp; laboratory equipment for oil &amp; gas, EOR and geotechnical research since <%= company.established %>.</p>
+        <p><%= company.address %></p>
+        <p>📞 <a href="tel:<%= company.phone.replace(/\s/g,'') %>"><%= company.phone %></a> &nbsp;·&nbsp; 📱 <%= company.mobile %><br>
+           ✉ <a href="mailto:<%= company.email %>"><%= company.email %></a></p>
+        <p>GST: <%= company.gst %> &nbsp;·&nbsp; IEC: <%= company.iec %></p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/testimonials">Testimonials</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <ul>
+          <% categories.forEach(function(c){ %>
+            <li><a href="/products/<%= c.slug %>"><%= c.name %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <%= year %> D Cam Engineering. All rights reserved.</span>
+      <span>Ahmedabad, Gujarat, India · Made in India · Exports Worldwide</span>
+    </div>
+  </div>
+</footer>

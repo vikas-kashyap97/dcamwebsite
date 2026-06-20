@@ -1,0 +1,14 @@
+<div class="breadcrumb"><div class="container"><a href="/">Home</a> » <%= kind === 'privacy' ? 'Privacy Policy' : 'Terms' %></div></div>
+<section class="section">
+  <div class="container" style="max-width:760px">
+    <% if (kind === 'privacy') { %>
+      <h1>Privacy Policy</h1>
+      <p>D Cam Engineering collects the information you submit through our enquiry forms (name, organisation, email, phone, country and your requirement) solely to respond to your enquiry and provide quotes. We do not sell your data. We retain enquiry records to maintain your account and order history with us.</p>
+      <p>Your enquiry is emailed to our team and stored securely. You may request deletion of your data by contacting <a href="mailto:<%= company.email %>"><%= company.email %></a>.</p>
+    <% } else { %>
+      <h1>Terms &amp; Conditions</h1>
+      <p>All prices are quoted on request and are subject to confirmation. Specifications shown are indicative and may be customised to your requirement. Delivery times are estimates and confirmed at the time of order. Equipment is manufactured to order; payment and shipment terms are agreed per quotation.</p>
+    <% } %>
+    <p class="muted">Last updated <%= year %>. For questions, contact <a href="mailto:<%= company.email %>"><%= company.email %></a>.</p>
+  </div>
+</section>

@@ -1,0 +1,98 @@
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow" style="color:#bfe3f5">In-house manufacturer since <%= company.established %></span>
+    <h1>Precision Laboratory &amp; High-Pressure Equipment for Oil, Gas &amp; Core Research</h1>
+    <p>We design and machine core holders, syringe pumps, accumulators, core-flooding systems, permeameters and reactors in-house — rated up to 20,000 psi and customisable in SS316, Hastelloy, Inconel &amp; Titanium.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="/products">Explore Products</a>
+      <a class="btn btn-outline" href="/contact">Request a Quote</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stat"><b>2011</b><span>ESTABLISHED</span></div>
+    <div class="stat"><b>20,000 psi</b><span>MAX PRESSURE</span></div>
+    <div class="stat"><b>In-house</b><span>VMC / CNC MACHINING</span></div>
+    <div class="stat"><b>Worldwide</b><span>EXPORTS</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">What we make</span>
+      <h2>Product Categories</h2>
+      <p>Equipment for petroleum, EOR, geoscience and process research — built to your specification.</p>
+    </div>
+    <div class="grid grid-4">
+      <% categories.forEach(function(c){ %>
+        <a class="cat-tile" href="/products/<%= c.slug %>">
+          <div class="ic">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+          </div>
+          <h3><%= c.name %></h3>
+          <p><%= c.description %></p>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Featured</span>
+      <h2>Our Products</h2>
+      <p>Every product is effectively its own landing page — full specs, photos and a quote form.</p>
+    </div>
+    <div class="grid grid-3">
+      <% products.forEach(function(product){ %>
+        <%- include('partials/product-card', { product: product, catSlug: product._catSlug }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-2" style="align-items:center;gap:46px">
+      <div>
+        <span class="eyebrow">About us</span>
+        <h2>An established manufacturer, not a reseller</h2>
+        <p>D Cam Engineering is an Ahmedabad-based manufacturer of high-pressure and laboratory equipment for petroleum, EOR and geotechnical research. Founded in <%= company.established %> and led by <%= company.proprietor %>, we design and machine our equipment in-house and ship to laboratories across India and worldwide.</p>
+        <ul class="checklist" style="margin:18px 0">
+          <li>High-pressure capability up to 20,000 psi</li>
+          <li>Customisable materials &amp; sleeves</li>
+          <li>GST &amp; IEC registered exporter</li>
+          <li>Competitive, fair pricing</li>
+        </ul>
+        <a class="btn btn-outline" href="/about">Read more about us →</a>
+      </div>
+      <div class="form-card">
+        <table class="factsheet">
+          <tr><td>Nature of business</td><td>Manufacturer / Exporter</td></tr>
+          <tr><td>Established</td><td><%= company.established %></td></tr>
+          <tr><td>Proprietor</td><td><%= company.proprietor %></td></tr>
+          <tr><td>GST</td><td><%= company.gst %></td></tr>
+          <tr><td>IEC</td><td><%= company.iec %></td></tr>
+          <tr><td>Location</td><td>Ahmedabad, Gujarat, India</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="cta-band">
+      <h2>Need a quote or a custom configuration?</h2>
+      <p style="max-width:560px;margin:0 auto 20px">Tell us your pressure, material and capacity requirements — we'll get back to you fast.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-primary" href="/contact">Request a Quote</a>
+        <a class="btn btn-wa" href="https://wa.me/<%= whatsappNumber %>" target="_blank">WhatsApp Us</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<div class="topline"><h1>Settings</h1></div>
+<% if (saved) { %><div class="panel" style="background:#eafaf0;border-color:#b9e6cb;color:#1f7a47">✓ Settings saved.</div><% } %>
+
+<div class="grid2" style="align-items:start">
+  <div class="panel">
+    <h2>Lead routing</h2>
+    <form action="/admin/settings" method="POST">
+      <div class="field"><label>Founder email (where enquiries are sent)</label><input type="email" name="founder_email" value="<%= founderEmail %>"></div>
+      <div class="field"><label>WhatsApp number (digits only, with country code)</label><input type="text" name="whatsapp_number" value="<%= whatsapp %>"></div>
+      <button class="btn btn-primary btn-sm" type="submit">Save</button>
+    </form>
+  </div>
+  <div class="panel">
+    <h2>SMTP (email sending)</h2>
+    <p>SMTP is configured via environment variables in <code>.env</code> (server-side, never in the browser).</p>
+    <table class="cfg-table">
+      <tr><td>Status</td><td><span class="badge <%= smtpConfigured ? 'b-Won' : 'b-Lost' %>"><%= smtpConfigured ? 'Configured' : 'Not configured' %></span></td></tr>
+      <tr><td>Host</td><td><%= config.smtp.host || '— set SMTP_HOST in .env —' %></td></tr>
+      <tr><td>Port</td><td><%= config.smtp.port %></td></tr>
+      <tr><td>From</td><td><%= config.smtp.from %></td></tr>
+    </table>
+    <p class="muted" style="font-size:.84rem">If SMTP is not configured, enquiries are still saved to the database and visible in Leads — only the email notification is skipped.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>WhatsApp Cloud API (phase 2 — optional)</h2>
+  <p class="muted" style="font-size:.88rem">Click-to-chat works today using the number above. To push automatic WhatsApp notifications to the founder on each lead, add the Meta WhatsApp Cloud API credentials in <code>.env</code> (WA_PHONE_NUMBER_ID, WA_ACCESS_TOKEN, WA_TEMPLATE_NAME) and wire them into <code>services/mailer.js</code> alongside the email send.</p>
+</div>

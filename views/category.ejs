@@ -1,0 +1,13 @@
+<div class="breadcrumb"><div class="container"><a href="/">Home</a> » <a href="/products">Products</a> » <%= category.name %></div></div>
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Category</span>
+    <h1><%= category.name %></h1>
+    <p style="max-width:760px"><%= category.description %></p>
+    <div class="grid grid-3" style="margin-top:24px">
+      <% products.forEach(function(product){ %>
+        <%- include('partials/product-card', { product: product, catSlug: category.slug }) %>
+      <% }) %>
+    </div>
+  </div>
+</section>

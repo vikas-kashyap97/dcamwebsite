@@ -1,0 +1,27 @@
+<div class="topline"><h1>Clients</h1></div>
+<div class="panel">
+  <form class="filters" method="GET">
+    <input type="text" name="q" placeholder="Search name, org, email…" value="<%= q %>">
+    <button class="btn btn-primary btn-sm" type="submit">Search</button>
+    <a class="btn btn-outline btn-sm" href="/admin/clients">Reset</a>
+  </form>
+  <% if (!clients.length) { %>
+    <p class="muted">No clients yet. They are created automatically from enquiries.</p>
+  <% } else { %>
+  <table class="data">
+    <thead><tr><th>Name</th><th>Organisation</th><th>Country</th><th>Enquiries</th><th>Last activity</th><th></th></tr></thead>
+    <tbody>
+      <% clients.forEach(function(c){ %>
+        <tr>
+          <td><%= c.name || '—' %><br><span class="muted" style="font-size:.8rem"><%= c.email || '' %></span></td>
+          <td><%= c.organisation || '—' %></td>
+          <td><%= c.country || '—' %></td>
+          <td><%= c.lead_count %></td>
+          <td class="muted" style="font-size:.82rem"><%= c.last_activity || '—' %></td>
+          <td><a class="btn btn-outline btn-sm" href="/admin/clients/<%= c.id %>">History</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>

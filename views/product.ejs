@@ -1,0 +1,131 @@
+<div class="breadcrumb"><div class="container">
+  <a href="/">Home</a> » <a href="/products">Products</a> »
+  <a href="/products/<%= product._catSlug %>"><%= product._catName %></a> » <%= product.name %>
+</div></div>
+
+<section class="section">
+  <div class="container">
+    <div class="product-hero">
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="main">
+          <% if (product.primary_image) { %>
+            <img id="galleryMain" src="<%= product.primary_image.path %>" alt="<%= product.name %>">
+          <% } %>
+        </div>
+        <% if (product.images.length > 1) { %>
+          <div class="thumbs">
+            <% product.images.forEach(function(img, i){ %>
+              <img src="<%= img.path %>" data-full="<%= img.path %>" alt="<%= img.alt || product.name %>"
+                   class="<%= i===0 ? 'active' : '' %>" onclick="dcamSwapImage(this)">
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Summary -->
+      <div>
+        <span class="eyebrow"><%= product._catName %></span>
+        <h1 style="margin-top:4px"><%= product.name %></h1>
+        <p class="muted"><%= product.short_desc %></p>
+        <div class="pills" style="margin:14px 0">
+          <% product.specs.slice(0,5).forEach(function(s){ %><span class="pill"><%= s.label %>: <%= s.value %></span><% }) %>
+        </div>
+        <p style="margin:16px 0">
+          <% if (product.price_mode === 'fixed' && product.price) { %>
+            <span class="price-tag"><%= product.price %></span>
+          <% } else { %>
+            <span class="price-req">Price on request</span>
+          <% } %>
+        </p>
+        <ul class="meta-list">
+          <li><b>MOQ:</b> <%= product.moq %></li>
+          <li><b>Lead time:</b> <%= product.lead_time %></li>
+        </ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+          <button class="btn btn-primary" onclick="dcamScrollToForm()">Yes, I'm Interested</button>
+          <button class="btn btn-outline" onclick="dcamScrollToForm()">Request a Callback</button>
+          <button class="btn btn-wa" onclick="dcamWhatsApp('<%= whatsappNumber %>','Hi D Cam Engineering, I am interested in the <%= product.name.replace(/'/g,"") %>. Please share a quote.')">WhatsApp Enquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specs + description -->
+    <div class="grid grid-2" style="gap:40px;margin-top:48px;align-items:start">
+      <div>
+        <h2>Specifications</h2>
+        <table class="spec-table">
+          <% product.specs.forEach(function(s){ %>
+            <tr><th><%= s.label %></th><td><%= s.value %><% if (s.meaning) { %><br><span class="muted" style="font-size:.82rem"><%= s.meaning %></span><% } %></td></tr>
+          <% }) %>
+        </table>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <p><%= product.long_desc %></p>
+        <% if (related.length) { %>
+          <h3 style="margin-top:28px">Related products</h3>
+          <ul>
+            <% related.forEach(function(r){ %>
+              <li><a href="/products/<%= product._catSlug %>/<%= r.slug %>"><%= r.name %></a></li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Enquiry form -->
+    <div id="enquiry" class="form-card" style="margin-top:48px">
+      <span class="eyebrow">Get a quote</span>
+      <h2 style="margin-top:4px">Enquire about the <%= product.name %></h2>
+      <p class="muted">Tell us the configuration you need and we'll send a quote. Fields marked <span class="req">*</span> are required.</p>
+      <form action="/api/leads" method="POST">
+        <input type="hidden" name="product_id" value="<%= product.id %>">
+        <input type="hidden" name="product_name" value="<%= product.name %>">
+        <input type="hidden" name="category" value="<%= product._catName %>">
+        <input type="hidden" name="source_page" value="/products/<%= product._catSlug %>/<%= product.slug %>">
+        <div class="honeypot"><label>Company website<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+
+        <div class="fieldset-title">Your requirement</div>
+        <div class="form-grid">
+          <% product.form_fields.forEach(function(f){ %>
+            <div class="field">
+              <label><%= f.label %> <% if (f.required) { %><span class="req">*</span><% } %></label>
+              <% if (f.type === 'select') { %>
+                <select name="cfg_<%= f.name %>" <%= f.required ? 'required' : '' %>>
+                  <option value="">Select…</option>
+                  <% (f.options||[]).forEach(function(o){ %><option value="<%= o %>"><%= o %></option><% }) %>
+                </select>
+              <% } else { %>
+                <input type="text" name="cfg_<%= f.name %>" placeholder="<%= f.placeholder || '' %>" <%= f.required ? 'required' : '' %>>
+              <% } %>
+            </div>
+          <% }) %>
+          <div class="field">
+            <label>Quantity</label>
+            <input type="number" name="quantity" min="1" value="1">
+          </div>
+        </div>
+
+        <div class="fieldset-title">Your details</div>
+        <div class="form-grid">
+          <div class="field"><label>Full name <span class="req">*</span></label><input type="text" name="name" required></div>
+          <div class="field"><label>Organisation / Institute <span class="req">*</span></label><input type="text" name="organisation" required></div>
+          <div class="field"><label>Email <span class="req">*</span></label><input type="email" name="email" required></div>
+          <div class="field"><label>Phone / WhatsApp <span class="req">*</span></label><input type="tel" name="phone" required></div>
+          <div class="field"><label>Country <span class="req">*</span></label><input type="text" name="country" required></div>
+          <div class="field"><label>Application / Research area</label><input type="text" name="application" placeholder="e.g. EOR study, HPLC"></div>
+        </div>
+        <div class="field"><label>Message</label><textarea name="message" placeholder="Any additional details…"></textarea></div>
+        <label style="font-size:.85rem;display:flex;gap:8px;align-items:flex-start;margin:6px 0 16px">
+          <input type="checkbox" required style="width:auto;margin-top:3px"> I agree to be contacted about this enquiry per the <a href="/privacy">privacy policy</a>.
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"<%= product.name %>","brand":{"@type":"Brand","name":"D Cam Engineering"},"description":"<%= (product.short_desc||'').replace(/"/g,'') %>"}
+</script>

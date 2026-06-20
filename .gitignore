@@ -1,0 +1,9 @@
+node_modules/
+data/
+.env
+public/uploads/products/
+npm-debug.log*
+.DS_Store
+
+# Local Netlify folder
+.netlify

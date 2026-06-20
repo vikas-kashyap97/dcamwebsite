@@ -1,0 +1,35 @@
+<div class="topline">
+  <h1><%= client.name || 'Client' %></h1>
+  <a class="btn btn-outline btn-sm" href="/admin/clients">← All clients</a>
+</div>
+
+<div class="grid2" style="align-items:start">
+  <div class="panel">
+    <h2>Contact</h2>
+    <p><b>Organisation:</b> <%= client.organisation || '—' %><br>
+       <b>Email:</b> <a href="mailto:<%= client.email %>"><%= client.email || '—' %></a><br>
+       <b>Phone:</b> <%= client.phone || '—' %><br>
+       <b>Country:</b> <%= client.country || '—' %><br>
+       <b>Client since:</b> <%= client.created_at %></p>
+    <% if (client.phone) { %><a class="btn btn-wa btn-sm" href="https://wa.me/<%= client.phone.replace(/[^0-9]/g,'') %>" target="_blank">WhatsApp</a><% } %>
+  </div>
+  <div class="panel">
+    <h2>Product &amp; enquiry history</h2>
+    <% if (!leads.length) { %><p class="muted">No enquiries.</p><% } else { %>
+    <table class="data">
+      <thead><tr><th>Ref</th><th>Product</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+        <% leads.forEach(function(l){ %>
+          <tr>
+            <td><%= l.ref %></td>
+            <td><%= l.product_name || '—' %></td>
+            <td><span class="badge b-<%= l.status %>"><%= l.status %></span></td>
+            <td class="muted" style="font-size:.82rem"><%= l.created_at %></td>
+            <td><a class="btn btn-outline btn-sm" href="/admin/leads/<%= l.id %>">Open</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+</div>

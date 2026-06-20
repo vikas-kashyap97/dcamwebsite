@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0e7c86"/><stop offset="1" stop-color="#08334f"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/></pattern></defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  <circle cx="640" cy="120" r="70" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <circle cx="640" cy="120" r="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <text x="400" y="280" fill="#ffffff" font-family="Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle"><tspan x="400" dy="0">High Pressure</tspan><tspan x="400" dy="44">Syringe Pump</tspan></text>
+  <text x="400" y="470" fill="rgba(255,255,255,0.75)" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" letter-spacing="3">D CAM ENGINEERING</text>
+  <text x="400" y="500" fill="rgba(255,255,255,0.5)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Product photo placeholder — replace in admin</text>
+</svg>

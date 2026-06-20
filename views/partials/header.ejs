@@ -1,0 +1,23 @@
+<div class="topbar">
+  <div class="container">
+    <span>📞 <a href="tel:<%= company.phone.replace(/\s/g,'') %>"><%= company.phone %></a> &nbsp;·&nbsp; ✉ <a href="mailto:<%= company.email %>"><%= company.email %></a></span>
+    <span class="gst">GST: <%= company.gst %> &nbsp;·&nbsp; IEC: <%= company.iec %></span>
+  </div>
+</div>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label="D Cam Engineering — home">
+      <img class="brand-logo" src="/img/logo-horizontal.png" width="615" height="200" alt="D Cam Engineering">
+      <small class="brand-tag">Lab &amp; High-Pressure Equipment</small>
+    </a>
+    <nav class="nav">
+      <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a>
+      <a href="/about" class="<%= currentPath.startsWith('/about') ? 'active' : '' %>">About</a>
+      <a href="/products" class="<%= currentPath.startsWith('/products') ? 'active' : '' %>">Products</a>
+      <a href="/testimonials" class="<%= currentPath.startsWith('/testimonials') ? 'active' : '' %>">Testimonials</a>
+      <a href="/contact" class="<%= currentPath.startsWith('/contact') ? 'active' : '' %>">Contact</a>
+      <a href="/contact" class="btn btn-primary btn-sm">Get a Quote</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>

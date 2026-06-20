@@ -1,0 +1,22 @@
+<div class="breadcrumb"><div class="container"><a href="/">Home</a> » Products</div></div>
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Catalog</span>
+    <h1>Our Products</h1>
+    <p style="max-width:760px">Browse our full range of high-pressure and laboratory equipment. Each product page has full specifications, photos and a configuration-specific quote form.</p>
+
+    <% categories.forEach(function(c){ %>
+      <% if (c.products.length) { %>
+        <div id="<%= c.slug %>" style="margin-top:44px">
+          <h2><%= c.name %></h2>
+          <p class="muted" style="margin-top:-6px"><%= c.description %></p>
+          <div class="grid grid-3" style="margin-top:18px">
+            <% c.products.forEach(function(product){ %>
+              <%- include('partials/product-card', { product: product, catSlug: c.slug }) %>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+    <% }) %>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<div class="topline">
+  <h1>Lead <%= lead.ref %> <span class="badge b-<%= lead.status %>"><%= lead.status %></span></h1>
+  <a class="btn btn-outline btn-sm" href="/admin/leads">← All leads</a>
+</div>
+
+<div class="grid2" style="align-items:start">
+  <div>
+    <div class="panel">
+      <h2>Enquiry</h2>
+      <p><b>Product:</b> <%= lead.product_name || 'General enquiry' %> <% if (lead.category) { %>(<%= lead.category %>)<% } %><br>
+         <b>Quantity:</b> <%= lead.quantity || '1' %><br>
+         <b>Application:</b> <%= lead.application || '—' %></p>
+      <% var keys = Object.keys(cfg); if (keys.length) { %>
+        <h3 style="font-size:.95rem;margin:14px 0 6px">Requested configuration</h3>
+        <table class="cfg-table"><% keys.forEach(function(k){ %><tr><td><%= k %></td><td><%= cfg[k] %></td></tr><% }) %></table>
+      <% } %>
+      <% if (lead.message) { %><p style="margin-top:12px"><b>Message:</b><br><%= lead.message %></p><% } %>
+      <p class="muted" style="font-size:.8rem;margin-top:10px">Source: <%= lead.source_page || '—' %> · Email status: <span class="badge b-<%= lead.email_status %>"><%= lead.email_status %></span></p>
+    </div>
+
+    <div class="panel">
+      <h2>Activity history</h2>
+      <form action="/admin/leads/<%= lead.id %>/note" method="POST" style="margin-bottom:16px">
+        <div class="field" style="margin-bottom:8px">
+          <select name="type"><option value="note">Note</option><option value="call">Call</option><option value="email">Email</option><option value="quote">Quote sent</option></select>
+        </div>
+        <div class="field"><textarea name="body" placeholder="Add a note, call log or update…" required></textarea></div>
+        <button class="btn btn-primary btn-sm" type="submit">Add to history</button>
+      </form>
+      <ul class="timeline">
+        <% if (!activity.length) { %><li class="muted">No activity yet.</li><% } %>
+        <% activity.forEach(function(a){ %>
+          <li>
+            <div class="t-type"><%= a.type %></div>
+            <div><%= a.body %></div>
+            <div class="t-time"><%= a.created_at %></div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <h2>Buyer</h2>
+      <p><b><%= lead.client_name || '—' %></b><br>
+         <%= lead.organisation || '' %><br>
+         <%= lead.country || '' %></p>
+      <p><a href="mailto:<%= lead.email %>"><%= lead.email %></a><br><%= lead.phone || '' %></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <a class="btn btn-primary btn-sm" href="mailto:<%= lead.email %>?subject=Re: Enquiry <%= lead.ref %>">Reply email</a>
+        <% if (lead.phone) { %><a class="btn btn-wa btn-sm" href="https://wa.me/<%= lead.phone.replace(/[^0-9]/g,'') %>" target="_blank">WhatsApp</a><% } %>
+        <% if (lead.client_id) { %><a class="btn btn-outline btn-sm" href="/admin/clients/<%= lead.client_id %>">Client history</a><% } %>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Update status</h2>
+      <form action="/admin/leads/<%= lead.id %>/status" method="POST">
+        <div class="field"><select name="status"><% statuses.forEach(function(s){ %><option value="<%= s %>" <%= lead.status===s?'selected':'' %>><%= s %></option><% }) %></select></div>
+        <button class="btn btn-primary btn-sm" type="submit">Save status</button>
+      </form>
+    </div>
+  </div>
+</div>

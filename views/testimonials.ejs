@@ -1,0 +1,25 @@
+<div class="breadcrumb"><div class="container"><a href="/">Home</a> » Testimonials</div></div>
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Social proof</span>
+    <h1>What our customers say</h1>
+    <div class="rating-summary">
+      <span class="big"><%= avg %></span>
+      <div>
+        <div class="stars"><% for(var i=0;i<5;i++){ %><%= i < Math.round(avg) ? '★' : '☆' %><% } %></div>
+        <span class="muted">Average rating from <%= testimonials.length %> customers, including buyers in Portugal, Iraq and Indonesia.</span>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <% testimonials.forEach(function(t){ %>
+        <div class="review">
+          <div class="stars"><% for(var i=0;i<5;i++){ %><%= i < t.rating ? '★' : '☆' %><% } %></div>
+          <h3 style="margin:8px 0 2px;font-size:1.05rem"><%= t.reviewer %></h3>
+          <p class="muted" style="margin:0;font-size:.85rem"><%= t.location %> · <%= t.date %></p>
+          <% if (t.product) { %><p style="margin:8px 0 0;font-size:.88rem"><b>Product:</b> <%= t.product %></p><% } %>
+          <% if (t.body) { %><p style="margin:8px 0 0"><%= t.body %></p><% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>

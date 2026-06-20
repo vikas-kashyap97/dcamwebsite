@@ -1,0 +1,18 @@
+<div class="topline"><h1>Products</h1></div>
+<div class="panel">
+  <table class="data">
+    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Images</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% products.forEach(function(p){ %>
+        <tr>
+          <td><%= p.name %></td>
+          <td><%= p._catName %></td>
+          <td><%= p.price_mode==='fixed' && p.price ? p.price : 'On request' %></td>
+          <td><%= p.images.length %></td>
+          <td><span class="badge <%= p.status==='active'?'b-Won':'b-Lost' %>"><%= p.status %></span></td>
+          <td><a class="btn btn-outline btn-sm" href="/admin/products/<%= p.id %>">Edit</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

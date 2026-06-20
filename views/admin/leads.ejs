@@ -1,0 +1,34 @@
+<div class="topline"><h1>Leads</h1></div>
+<div class="panel">
+  <form class="filters" method="GET">
+    <input type="text" name="q" placeholder="Search name, org, product…" value="<%= filter.q %>">
+    <select name="status">
+      <option value="">All statuses</option>
+      <% statuses.forEach(function(s){ %><option value="<%= s %>" <%= filter.status===s?'selected':'' %>><%= s %></option><% }) %>
+    </select>
+    <button class="btn btn-primary btn-sm" type="submit">Filter</button>
+    <a class="btn btn-outline btn-sm" href="/admin/leads">Reset</a>
+  </form>
+
+  <% if (!leads.length) { %>
+    <p class="muted">No leads match.</p>
+  <% } else { %>
+  <table class="data">
+    <thead><tr><th>Ref</th><th>Buyer</th><th>Product</th><th>Country</th><th>Status</th><th>Email</th><th>Received</th><th></th></tr></thead>
+    <tbody>
+      <% leads.forEach(function(l){ %>
+        <tr>
+          <td><%= l.ref %></td>
+          <td><%= l.client_name || '—' %><br><span class="muted" style="font-size:.8rem"><%= l.organisation || '' %></span></td>
+          <td><%= l.product_name || '—' %></td>
+          <td><%= l.country || '—' %></td>
+          <td><span class="badge b-<%= l.status %>"><%= l.status %></span></td>
+          <td><span class="badge b-<%= l.email_status %>"><%= l.email_status %></span></td>
+          <td class="muted" style="font-size:.82rem"><%= l.created_at %></td>
+          <td><a class="btn btn-outline btn-sm" href="/admin/leads/<%= l.id %>">Open</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>

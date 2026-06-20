@@ -1,0 +1,20 @@
+<% var pcat = (typeof catSlug !== 'undefined' && catSlug) ? catSlug : (product._catSlug || ''); %>
+<article class="card">
+  <a class="thumb" href="/products/<%= pcat %>/<%= product.slug %>">
+    <% if (product.primary_image) { %>
+      <img src="<%= product.primary_image.path %>" alt="<%= product.primary_image.alt || product.name %>" loading="lazy">
+    <% } %>
+  </a>
+  <div class="body">
+    <span class="cat"><%= product.lead_time ? product.lead_time : 'Made to order' %></span>
+    <h3><a href="/products/<%= pcat %>/<%= product.slug %>"><%= product.name %></a></h3>
+    <div class="pills">
+      <% (product.specs || []).slice(0,3).forEach(function(s){ %><span class="pill"><%= s.value %></span><% }) %>
+    </div>
+    <p class="desc"><%= product.short_desc %></p>
+    <div class="foot">
+      <span class="price-req"><%= product.price_mode === 'fixed' && product.price ? product.price : 'Price on request' %></span>
+      <a class="btn btn-outline btn-sm" href="/products/<%= pcat %>/<%= product.slug %>">View &amp; Enquire →</a>
+    </div>
+  </div>
+</article>

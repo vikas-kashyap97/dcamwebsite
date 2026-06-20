@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="container center" style="max-width:560px">
+    <div style="font-size:3.4rem">✅</div>
+    <h1>Thank you — we've got your enquiry</h1>
+    <% if (ref) { %><p>Your reference number is <strong><%= ref %></strong>. Please quote it in any follow-up.</p><% } %>
+    <p class="muted">Our team will review your requirement and get back to you with a quote. For anything urgent, message us on WhatsApp.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px">
+      <a class="btn btn-wa" href="https://wa.me/<%= whatsappNumber %>" target="_blank">Message on WhatsApp</a>
+      <a class="btn btn-outline" href="/products">Back to products</a>
+    </div>
+  </div>
+</section>

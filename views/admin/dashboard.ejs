@@ -1,0 +1,44 @@
+<div class="topline"><h1>Dashboard</h1><a class="btn btn-primary" href="/admin/leads">View all leads</a></div>
+
+<div class="kpis">
+  <div class="kpi"><b><%= stats.total %></b><span>Total leads</span></div>
+  <div class="kpi"><b><%= stats.month %></b><span>This month</span></div>
+  <div class="kpi"><b><%= stats.open %></b><span>Open (in pipeline)</span></div>
+  <div class="kpi"><b><%= stats.won %></b><span>Won</span></div>
+</div>
+
+<div class="panel">
+  <h2>Recent enquiries</h2>
+  <% if (!recent.length) { %>
+    <p class="muted">No leads yet. Submit an enquiry on the public site to see it here.</p>
+  <% } else { %>
+  <table class="data">
+    <thead><tr><th>Ref</th><th>Buyer</th><th>Product</th><th>Status</th><th>Email</th><th>Received</th><th></th></tr></thead>
+    <tbody>
+      <% recent.forEach(function(l){ %>
+        <tr>
+          <td><%= l.ref %></td>
+          <td><%= l.client_name || '—' %><br><span class="muted" style="font-size:.8rem"><%= l.organisation || '' %></span></td>
+          <td><%= l.product_name || '—' %></td>
+          <td><span class="badge b-<%= l.status %>"><%= l.status %></span></td>
+          <td><span class="badge b-<%= l.email_status %>"><%= l.email_status %></span></td>
+          <td class="muted" style="font-size:.82rem"><%= l.created_at %></td>
+          <td><a class="btn btn-outline btn-sm" href="/admin/leads/<%= l.id %>">Open</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<div class="panel">
+  <h2>Leads by product</h2>
+  <% if (!stats.byProduct.length) { %><p class="muted">No data yet.</p><% } else { %>
+    <% stats.byProduct.forEach(function(p){ var w = Math.max(6, Math.round(p.n / stats.byProduct[0].n * 100)); %>
+      <div style="margin:8px 0">
+        <div style="display:flex;justify-content:space-between;font-size:.86rem"><span><%= p.product_name || '—' %></span><b><%= p.n %></b></div>
+        <div style="background:#eef3f7;border-radius:6px;height:10px;overflow:hidden"><div style="width:<%= w %>%;height:100%;background:#0b6ea8"></div></div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
